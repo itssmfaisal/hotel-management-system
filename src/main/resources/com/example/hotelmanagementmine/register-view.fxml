@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.hotelmanagementmine.controller.RegisterController"
+            prefHeight="550.0" prefWidth="400.0"
+            stylesheets="@style.css">
+
+    <center>
+        <VBox alignment="CENTER" spacing="20" styleClass="content-pane">
+            <padding>
+                <Insets top="40" right="40" bottom="40" left="40"/>
+            </padding>
+
+            <Label text="Register New Account" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;">
+                <font>
+                    <Font size="20.0" />
+                </font>
+            </Label>
+
+            <VBox spacing="15" prefWidth="300">
+                <Label text="Full Name:" />
+                <TextField fx:id="fullNameField" promptText="Enter full name" prefHeight="35"/>
+
+                <Label text="Username:" />
+                <TextField fx:id="usernameField" promptText="Choose a username" prefHeight="35"/>
+
+                <Label text="Password:" />
+                <PasswordField fx:id="passwordField" promptText="Choose a password" prefHeight="35"/>
+
+                <Label text="Confirm Password:" />
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirm password" prefHeight="35"/>
+
+                <Label fx:id="messageLabel" visible="false" />
+
+                <HBox spacing="10" alignment="CENTER">
+                    <Button text="Register" onAction="#handleRegister" styleClass="btn-primary" prefWidth="140" prefHeight="35"/>
+                    <Button text="Back to Login" onAction="#handleBackToLogin" styleClass="btn-secondary" prefWidth="140" prefHeight="35"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

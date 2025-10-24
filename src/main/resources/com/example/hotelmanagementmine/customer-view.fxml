@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.hotelmanagementmine.controller.CustomerController"
+            prefHeight="700.0" prefWidth="1000.0"
+            stylesheets="@style.css">
+
+    <!-- Top Bar -->
+    <top>
+        <VBox styleClass="top-bar">
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Hotel Management System - Customer Portal" styleClass="title">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="welcomeLabel" text="Welcome, Customer" style="-fx-text-fill: white; -fx-font-size: 16px;"/>
+                <Button text="Logout" onAction="#handleLogout" styleClass="btn-danger" prefHeight="30"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Main Content -->
+    <center>
+        <VBox spacing="20" styleClass="content-pane">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Available Rooms Section -->
+            <VBox spacing="10">
+                <Label text="Available Rooms" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Label text="Filter by Type:" />
+                    <ComboBox fx:id="roomTypeFilterCombo" prefWidth="150" promptText="All Types"/>
+                    <Button text="Refresh" onAction="#refreshRooms" styleClass="btn-secondary"/>
+                </HBox>
+
+                <TableView fx:id="availableRoomsTable" prefHeight="250">
+                    <columns>
+                        <TableColumn text="Room Number" fx:id="roomNumberColumn" prefWidth="150"/>
+                        <TableColumn text="Room Type" fx:id="roomTypeColumn" prefWidth="200"/>
+                        <TableColumn text="Price Per Night" fx:id="roomPriceColumn" prefWidth="150"/>
+                        <TableColumn text="Status" fx:id="roomStatusColumn" prefWidth="150"/>
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Booking Section -->
+            <VBox spacing="10">
+                <Label text="Make a Booking" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <GridPane hgap="10" vgap="10">
+                    <Label text="Select Room:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="bookingRoomCombo" GridPane.columnIndex="1" GridPane.rowIndex="0" prefWidth="200"/>
+
+                    <Label text="Check-In Date:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <DatePicker fx:id="checkInDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200"/>
+
+                    <Label text="Check-Out Date:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <DatePicker fx:id="checkOutDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="1" prefWidth="200"/>
+                </GridPane>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="Book Now" onAction="#createBooking" styleClass="btn-primary"/>
+                    <Label fx:id="totalAmountLabel" text="" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                </HBox>
+            </VBox>
+
+            <!-- My Bookings Section -->
+            <VBox spacing="10" VBox.vgrow="ALWAYS">
+                <Label text="My Bookings" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+                <TableView fx:id="myBookingsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn text="Booking ID" fx:id="bookingIdColumn" prefWidth="100"/>
+                        <TableColumn text="Room Number" fx:id="bookingRoomNumberColumn" prefWidth="120"/>
+                        <TableColumn text="Check-In" fx:id="bookingCheckInColumn" prefWidth="120"/>
+                        <TableColumn text="Check-Out" fx:id="bookingCheckOutColumn" prefWidth="120"/>
+                        <TableColumn text="Days" fx:id="bookingDaysColumn" prefWidth="80"/>
+                        <TableColumn text="Price/Day" fx:id="bookingPricePerDayColumn" prefWidth="100"/>
+                        <TableColumn text="Total Amount" fx:id="bookingTotalColumn" prefWidth="120"/>
+                        <TableColumn text="Status" fx:id="bookingStatusColumn" prefWidth="100"/>
+                    </columns>
+                </TableView>
+
+                <HBox spacing="10" alignment="CENTER_LEFT">
+                    <Button text="Cancel Booking" onAction="#cancelBooking" styleClass="btn-danger"/>
+                    <Button text="Refresh" onAction="#refreshBookings" styleClass="btn-secondary"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>
