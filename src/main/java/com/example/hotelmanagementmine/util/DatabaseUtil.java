@@ -1,7 +1,6 @@
 package com.example.hotelmanagementmine.util;
 
 import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -29,12 +28,12 @@ public class DatabaseUtil {
     }
 
     public static void initializeDatabase() {
-        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", USER, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(BASE_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement()) {
 
             // Create database if not exists
-            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS hotel_management");
-            stmt.executeUpdate("USE hotel_management");
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + DB_NAME);
+            stmt.executeUpdate("USE " + DB_NAME);
 
             // Create rooms table
             stmt.executeUpdate("""
