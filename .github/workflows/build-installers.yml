@@ -16,13 +16,26 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       
+      # CREATE .ENV FILE
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
       - name: Build with Maven
         run: ./mvnw.cmd clean package
-      
+
+      # COPY .ENV TO TARGET
+      - name: Copy .env to target
+        run: copy .env target\.env
+
       - name: Create Windows EXE
         run: |
           jpackage --type exe --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --win-menu --win-menu-group Business --vendor "com.example"
-      
+
       - uses: actions/upload-artifact@v4
         with:
           name: windows-exe
@@ -36,14 +49,27 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      
+
+      # CREATE .ENV FILE
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
       - name: Build with Maven
         run: ./mvnw clean package
-      
+
+      # COPY .ENV TO TARGET
+      - name: Copy .env to target
+        run: cp .env target/.env
+
       - name: Create Debian Package
         run: |
           jpackage --type deb --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --linux-shortcut --linux-menu-group Business --vendor "com.example"
-      
+
       - uses: actions/upload-artifact@v4
         with:
           name: linux-deb
@@ -57,29 +83,28 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      
+
+      # CREATE .ENV FILE
+      - name: Create .env file
+        run: |
+          echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+
       - name: Build with Maven
         run: ./mvnw clean package
-      
+
+      # COPY .ENV TO TARGET
+      - name: Copy .env to target
+        run: cp .env target/.env
+
       - name: Create macOS DMG
         run: |
           jpackage --type dmg --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --mac-package-name "Hotel Management" --vendor "com.example"
-      
+
       - uses: actions/upload-artifact@v4
         with:
           name: macos-dmg
           path: target/installer/*.dmg
-
-  create-release:
-    needs: [build-windows, build-linux, build-macos]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v4
-      
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            windows-exe/*
-            linux-deb/*
-            macos-dmg/*
