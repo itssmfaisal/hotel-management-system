@@ -1,17 +1,31 @@
 package com.example.hotelmanagementmine.util;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseUtil {
-    private static final String URL = "jdbc:mysql://localhost:3306/hotel_management";
-    private static final String USER = "root";
-    private static final String PASSWORD = "1234";
+    private static final Dotenv dotenv = Dotenv.configure()
+            .directory(".")
+            .ignoreIfMissing()
+            .load();
+
+    private static final String DB_HOST = dotenv.get("DB_HOST", "localhost");
+    private static final String DB_PORT = dotenv.get("DB_PORT", "3306");
+    private static final String DB_NAME = dotenv.get("DB_NAME", "hotel_management");
+    private static final String DB_USER = dotenv.get("DB_USER", "root");
+    private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD", "");
+
+    private static final String URL = String.format("jdbc:mysql://%s:%s/%s",
+            DB_HOST, DB_PORT, DB_NAME);
+    private static final String BASE_URL = String.format("jdbc:mysql://%s:%s/",
+            DB_HOST, DB_PORT);
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+        return DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
     }
 
     public static void initializeDatabase() {
