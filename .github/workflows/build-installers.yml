@@ -15,8 +15,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      
-      # CREATE .ENV FILE
+
       - name: Create .env file
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
@@ -28,18 +27,20 @@ jobs:
       - name: Build with Maven
         run: ./mvnw.cmd clean package
 
-      # COPY .ENV TO TARGET
+      - name: List target directory
+        run: dir target\*.jar
+
       - name: Copy .env to target
         run: copy .env target\.env
 
       - name: Create Windows EXE
         run: |
-          jpackage --type exe --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --win-menu --win-menu-group Business --vendor "com.example"
+          jpackage --type exe --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest installer --win-menu --win-menu-group Business --vendor "com.example"
 
       - uses: actions/upload-artifact@v4
         with:
           name: windows-exe
-          path: target/installer/*.exe
+          path: installer/*.exe
 
   build-linux:
     runs-on: ubuntu-latest
@@ -50,7 +51,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      # CREATE .ENV FILE
       - name: Create .env file
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
@@ -62,18 +62,20 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean package
 
-      # COPY .ENV TO TARGET
+      - name: List target directory
+        run: ls -la target/*.jar
+
       - name: Copy .env to target
         run: cp .env target/.env
 
       - name: Create Debian Package
         run: |
-          jpackage --type deb --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --linux-shortcut --linux-menu-group Business --vendor "com.example"
+          jpackage --type deb --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest installer --linux-shortcut --linux-menu-group Business --vendor "com.example"
 
       - uses: actions/upload-artifact@v4
         with:
           name: linux-deb
-          path: target/installer/*.deb
+          path: installer/*.deb
 
   build-macos:
     runs-on: macos-latest
@@ -84,7 +86,6 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      # CREATE .ENV FILE
       - name: Create .env file
         run: |
           echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
@@ -96,15 +97,17 @@ jobs:
       - name: Build with Maven
         run: ./mvnw clean package
 
-      # COPY .ENV TO TARGET
+      - name: List target directory
+        run: ls -la target/*.jar
+
       - name: Copy .env to target
         run: cp .env target/.env
 
       - name: Create macOS DMG
         run: |
-          jpackage --type dmg --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --mac-package-name "Hotel Management" --vendor "com.example"
+          jpackage --type dmg --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest installer --mac-package-name "Hotel Management" --vendor "com.example"
 
       - uses: actions/upload-artifact@v4
         with:
           name: macos-dmg
-          path: target/installer/*.dmg
+          path: installer/*.dmg
