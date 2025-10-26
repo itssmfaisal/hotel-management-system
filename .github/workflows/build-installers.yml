@@ -1,0 +1,85 @@
+name: Build All Platform Installers
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      
+      - name: Build with Maven
+        run: ./mvnw.cmd clean package
+      
+      - name: Create Windows EXE
+        run: |
+          jpackage --type exe --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --win-menu --win-menu-group Business --vendor "com.example"
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-exe
+          path: target/installer/*.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      
+      - name: Build with Maven
+        run: ./mvnw clean package
+      
+      - name: Create Debian Package
+        run: |
+          jpackage --type deb --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --linux-shortcut --linux-menu-group Business --vendor "com.example"
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-deb
+          path: target/installer/*.deb
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      
+      - name: Build with Maven
+        run: ./mvnw clean package
+      
+      - name: Create macOS DMG
+        run: |
+          jpackage --type dmg --name HotelManagement --app-version 1.0 --input target --main-jar hotel-management-mine-1.0-SNAPSHOT-shaded.jar --main-class com.example.hotelmanagementmine.Launcher --dest target/installer --mac-package-name "Hotel Management" --vendor "com.example"
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: target/installer/*.dmg
+
+  create-release:
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            windows-exe/*
+            linux-deb/*
+            macos-dmg/*
