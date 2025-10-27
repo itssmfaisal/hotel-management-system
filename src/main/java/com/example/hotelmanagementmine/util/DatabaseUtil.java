@@ -12,11 +12,11 @@ public class DatabaseUtil {
             .ignoreIfMissing()
             .load();
 
-    private static final String DB_HOST = dotenv.get("DB_HOST", "localhost");
-    private static final String DB_PORT = dotenv.get("DB_PORT", "3306");
+    private static final String DB_HOST = dotenv.get("DB_HOST", "mysql-aiven-itssmfaisal-5171.f.aivencloud.com");
+    private static final String DB_PORT = dotenv.get("DB_PORT", "18676");
     private static final String DB_NAME = dotenv.get("DB_NAME", "hotel_management");
-    private static final String DB_USER = dotenv.get("DB_USER", "root");
-    private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD", "");
+    private static final String DB_USER = dotenv.get("DB_USER", "avnadmin");
+    private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD", "AVNS_ubSwre3Z7qlfOlhSbdQ");
 
     // SSL options required by Aiven MySQL
     private static final String JDBC_OPTIONS = "?verifyServerCertificate=false&useSSL=true&requireSSL=true";
