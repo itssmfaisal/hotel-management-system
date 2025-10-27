@@ -18,10 +18,13 @@ public class DatabaseUtil {
     private static final String DB_USER = dotenv.get("DB_USER", "root");
     private static final String DB_PASSWORD = dotenv.get("DB_PASSWORD", "");
 
-    private static final String URL = String.format("jdbc:mysql://%s:%s/%s",
-            DB_HOST, DB_PORT, DB_NAME);
-    private static final String BASE_URL = String.format("jdbc:mysql://%s:%s/",
-            DB_HOST, DB_PORT);
+    // SSL options required by Aiven MySQL
+    private static final String JDBC_OPTIONS = "?verifyServerCertificate=false&useSSL=true&requireSSL=true";
+
+    private static final String URL = String.format("jdbc:mysql://%s:%s/%s%s",
+            DB_HOST, DB_PORT, DB_NAME, JDBC_OPTIONS);
+    private static final String BASE_URL = String.format("jdbc:mysql://%s:%s/%s",
+            DB_HOST, DB_PORT, JDBC_OPTIONS);
 
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
