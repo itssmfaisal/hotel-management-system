@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -241,6 +242,36 @@ public class CustomerController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void handleOpenProfile() {
+        try {
+            // Load the profile view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotelmanagementmine/profile-view.fxml"));
+            Parent profileRoot = loader.load();
+            Stage profileStage = new Stage();
+            profileStage.setTitle("Edit Profile");
+            profileStage.setScene(new Scene(profileRoot));
+            profileStage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleOpenPassword() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/hotelmanagementmine/password-update-view.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Change Password");
+            stage.setScene(new Scene(root, 400, 250));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void loadAvailableRooms() {
         availableRoomsList.clear();

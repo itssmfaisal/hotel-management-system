@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.hotelmanagementmine.controller.ProfileController"
+      prefWidth="400.0" prefHeight="320.0">
+    <Label text="Edit Profile"/>
+    <TextField fx:id="fullNameField" promptText="Full Name"/>
+    <TextField fx:id="usernameField" promptText="Username" editable="false"/>
+    <Button text="Update Profile" onAction="#handleUpdateProfile"/>
+    <Label fx:id="statusLabel"/>
+</VBox>

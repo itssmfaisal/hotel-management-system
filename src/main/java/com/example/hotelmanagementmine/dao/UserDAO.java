@@ -43,4 +43,16 @@ public class UserDAO {
             return false;
         }
     }
+
+    public void updateUserProfile(User user) throws SQLException {
+        String sql = "UPDATE users SET full_name=?, password=? WHERE id=?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, user.getFullName());
+            stmt.setString(2, user.getPassword());
+            stmt.setInt(3, user.getId());
+            stmt.executeUpdate();
+        }
+    }
+
 }

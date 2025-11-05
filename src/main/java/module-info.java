@@ -3,6 +3,7 @@ module com.example.hotelmanagementmine {
     requires javafx.fxml;
     requires java.sql;
     requires io.github.cdimascio.dotenv.java;
+    requires javafx.graphics;
 
     opens com.example.hotelmanagementmine to javafx.fxml;
     opens com.example.hotelmanagementmine.controller to javafx.fxml;

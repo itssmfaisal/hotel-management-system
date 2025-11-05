@@ -11,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -407,6 +408,29 @@ public class MainController {
         bookingRoomCombo.getSelectionModel().clearSelection();
         checkInDatePicker.setValue(null);
         checkOutDatePicker.setValue(null);
+    }
+
+    @FXML
+    public void handleOpenProfile() {
+        openWindow("/com/example/hotelmanagementmine/profile-view.fxml", "Edit Profile", 400, 320);
+    }
+
+    @FXML
+    public void handleOpenPassword() {
+        openWindow("/com/example/hotelmanagementmine/password-update-view.fxml", "Change Password", 400, 250);
+    }
+
+    private void openWindow(String fxmlPath, String title, int width, int height) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle(title);
+            stage.setScene(new Scene(root, width, height));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadBookings() {
