@@ -26,9 +26,9 @@
             <version>21.0.6</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>12.2.0.jre11</version>
         </dependency>
         <dependency>
             <groupId>io.github.cdimascio</groupId>
